@@ -17,15 +17,29 @@ server.listen(1337, function () {
 //This is a socket
 var io = socketio(server);
 
-io.on('connection', function (socket) {
+io.on('connection', function (mainSocket) {
     console.log('A new client has connected!');
-    console.log(socket.id);
+    console.log("--------------------------------");
+    console.log(mainSocket.id);
+    //console.log(io.sockets);
+
+    mainSocket.on('drawEvent', function(data) {
+        console.log(data);
+
+        mainSocket.broadcast.emit('drawData', data);
+    })
+
+    mainSocket.on('disconnect', function (socket) {
+        console.log('Disconnected from Server');
+        //console.log(socket.id);
+        //console.log(io.sockets);
+    });
+
 });
 
-io.on('disconnect', function (socket) {
-    console.log('Disconnected from Server');
-    console.log(socket.id);
-});
+
+
+
 
 app.use(express.static(path.join(__dirname, 'browser')));
 
