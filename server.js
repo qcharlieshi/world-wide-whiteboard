@@ -14,7 +14,7 @@ server.listen(1337, function () {
     console.log('The server is listening on port 1337!');
 });
 
-//This is a socket
+//This is a socket creator, has access to all our sockets
 var io = socketio(server);
 
 io.on('connection', function (mainSocket) {
